@@ -36,7 +36,12 @@ void ChangeFrequency(uint32_t *Frequency, int32_t Encoder, uint8_t *Cursor, uint
 			}
 		}
 	}
-	if((*Frequency) == 0)(*Frequency) = Power(1000,Unit); // ak je frekvencia 0 nastavy sa 000.1 xHz
+	if((*Frequency) == 0){// ak je frekvencia 0
+		/*if(*Cursor == 1)(*Frequency) = 999*Power(1000,Unit); // a nastavovali sa stovky nastavy sa 99.9 xHz
+		if(*Cursor == 2)(*Frequency) = 99*Power(1000,Unit); // a nastavovali sa desiatky nastavy sa 9.9 xHz
+		if(*Cursor == 3)(*Frequency) = 9*Power(1000,Unit); // a nastavovali sa jednotky nastavy sa 0.9 xHz
+		if(*Cursor == 4)*/(*Frequency) = Power(1000,Unit); // a nastavovalo sa desatinne miesto nastavy sa 000.1 xHz
+	}
 
 	if(Unit != 2){	// orezanie rozsahu na 999.9 (k)Hz
 		if((*Frequency) > 9999*Power(1000,Unit)){
@@ -88,8 +93,8 @@ int main(void)
 			if(EncoderButton & 0x01){ //neparny pocet stlaceni ( pri parnom bez zmeny), posuvanie v menu/zmena hodnoty
 				State = !State;
 				if(State == 0){ //ak sa ukoncilo editovanie parametru zapise sa do DDS
-					if(Cursor)DDSFrequency(Frequency); //ak je poloha kurzora nenulova tak sa zapise frekvencia inak priebeh
-					else DDSWaveform(Waveform);
+					DDSFrequency(Frequency);
+					DDSWaveform(Waveform);
 				}
 			}
 			EncoderButton = 0;
