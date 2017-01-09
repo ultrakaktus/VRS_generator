@@ -10,6 +10,13 @@
 
 #include "stm32l1xx.h"
 
+/*		HARDWARE:
+	 * GPIOA:
+	 * GPIO_Pin_6 =		Encoder pin "B"
+	 * GPIO_Pin_1 =		Encoder pin "A"
+	 * GPIO_Pin_0 =		Encoder button
+	 * */
+
 /*
  * priority preruseni od ovladacich prvkov
  * LUBO, nastav podla vlastneho uvazenia
@@ -47,19 +54,11 @@ void LEDInit(void);
 void LEDState(uint8_t State);
 	//- Nastavuje signalizacnu LED, 0 nesvieti, 1 svieti
 
-void ButtonInit(void);
-	//- Zavola sa na zaciatku programu, nastavi sa GPIO a prerusenia pre tlacidlo zapinania/vypinania vystupu
-
-uint8_t ButtonRelease(void);
-	//- Vrati pocet uvolneni tlacidla na zapinanie vystupu, po zavolani funkcie sa resetuje pocitadlo uvolneni tlacidla
-
 void EXTI1_IRQHandler(void);
 	//- Prerusenie od otocenia enkodera
 
 void EXTI2_IRQHandler(void);
 	//- Prerusenie od stlacenia enkodera
 
-void EXTI3_IRQHandler(void);
-	//- Prerusenie od tlacidla na zap/vyp. vystupu
 
 #endif /* INPUTS_H_ */
