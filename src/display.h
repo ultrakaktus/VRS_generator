@@ -1,3 +1,6 @@
+#ifndef _display_H_
+#define _display_H_
+
 #include "stm32l1xx.h"
 
 void DisplayInit(void);
@@ -12,3 +15,5 @@ void ClearDisplay(void);
 void CursorPosition(int col, int row);
 int num2text(uint16_t cislo);
 void Delay(uint32_t nCount);
+
+#endif // _display_H_

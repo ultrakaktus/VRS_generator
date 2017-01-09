@@ -9,6 +9,8 @@
 #define D6 				GPIO_Pin_3
 #define D7 				GPIO_Pin_9
 
+static volatile uint32_t Cursor_Last = 0;
+
 void DisplayInit(void) 		//inicializacia displeja
 {
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);			//GPIOB clock enable
@@ -28,8 +30,13 @@ void DisplayInit(void) 		//inicializacia displeja
 	SendCMD(0x28);  //konfiguracia LCD
 	SendCMD(0x06);
 	SendCMD(0x01);
-	SendCMD(0x0E);
+	SendCMD(0x0F);
 	Delay(0xffff);
+
+	DisplayWaveform(0);
+	DisplayFrequency(10);
+	DisplayUnit(1);
+	DisplayCursor(0, 0);
 }
 
 void DisplayCursor(uint8_t Position, uint8_t Show)	//nastavenie kurzora na poziciu
@@ -42,19 +49,26 @@ void DisplayCursor(uint8_t Position, uint8_t Show)	//nastavenie kurzora na pozic
 	if (Position == 5) SendCMD(0xC6);
 	if (Show == 0) SendCMD(0x0C);	//vypnutie kurzora
 	if (Show == 1) SendCMD(0x0E);	//zapnutie kurzora
+
+	Cursor_Last = Position;
 }
 
 void DisplayWaveform(uint8_t Waveform)		//zobrazenie funkcie
 {
 	CursorPosition(1,1);
+	PrintString("           ");
+	CursorPosition(1,1);
 	if (Waveform == 0) PrintString("sinus");
 	if (Waveform == 1) PrintString("trojuholnik");
 	if (Waveform == 2) PrintString("obdlznik");
+	CursorPosition(1,1);
 }
 
 void DisplayFrequency(uint16_t Frequency)	//zobrazenie frekvencie
 {
 	uint16_t pom;
+	CursorPosition(1,2);
+	PrintString("     ");
 	if (Frequency > 999) CursorPosition(1,2);
 	if (Frequency < 1000) CursorPosition(2,2);
 	if (Frequency < 100) CursorPosition(3,2);
@@ -63,6 +77,7 @@ void DisplayFrequency(uint16_t Frequency)	//zobrazenie frekvencie
 	PrintChar('.');
 	pom=Frequency%10;
 	PrintString(num2text(pom));
+	DisplayCursor(Cursor_Last,1);
 }
 
 void DisplayUnit(uint8_t Unit)			//zobrazenie jednotky
@@ -72,6 +87,7 @@ void DisplayUnit(uint8_t Unit)			//zobrazenie jednotky
 	if (Unit == 1) PrintChar('k');
 	if (Unit == 2) PrintChar('M');
 	PrintString("Hz");
+	CursorPosition(7,2);
 }
 
 void strobeEN(void) {	//generacia hodinoveho signalu
