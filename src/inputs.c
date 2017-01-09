@@ -8,7 +8,6 @@
 
 volatile int32_t encoder_rotations = 0;
 volatile uint8_t encoder_button = 0;
-volatile uint8_t output_button = 0;
 
 
 /*

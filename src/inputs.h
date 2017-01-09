@@ -28,15 +28,13 @@
 #define ENCODER_BUTTON_PREEMPTION	0x00
 #define ENCODER_BUTTON_SUB			0x02
 
-#define OUTPUT_BUTTON_PREEMPTION	0x00
-#define OUTPUT_BUTTON_SUB			0x00
 
 /*
  * Globalne premenne, ktorych hodnoty sa menia v preruseniach
  */
 extern volatile int32_t encoder_rotations;
 extern volatile uint8_t encoder_button;
-extern volatile uint8_t output_button;
+
 
 void EncoderInit(void);
 	//- Zavola sa na zaciatku programu, nastavi sa GPIO a prerusenia pre otacanie a stlacanie enkodera
