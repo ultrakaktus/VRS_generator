@@ -19,7 +19,6 @@
 
 /*
  * priority preruseni od ovladacich prvkov
- * LUBO, nastav podla vlastneho uvazenia
  */
 
 #define ENCODER_ROTATION_PREEMPTION	0x00
@@ -45,12 +44,6 @@ int32_t EncoderPosition(void);
 
 uint8_t EncoderRelease(void);
 	//- Vrati pocet uvolneni tlacidla na enkoderi, po zavolani funkcie sa resetuje pocitadlo uvolneni tlacidla
-
-void LEDInit(void);
-	//- Zavola sa na zaciatku programu, nastavi sa GPIO pre LED signalizujucu zapnuty vystup generatora
-
-void LEDState(uint8_t State);
-	//- Nastavuje signalizacnu LED, 0 nesvieti, 1 svieti
 
 void EXTI1_IRQHandler(void);
 	//- Prerusenie od otocenia enkodera
